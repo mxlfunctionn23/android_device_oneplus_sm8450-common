@@ -129,6 +129,7 @@ PRODUCT_PACKAGES += \
     gralloc.default \
     libdisplayconfig.qti \
     libdisplayconfig.system.qti \
+    libgralloc.qti \
     libqdMetaData \
     libqdMetaData.system \
     libsdmcore \
