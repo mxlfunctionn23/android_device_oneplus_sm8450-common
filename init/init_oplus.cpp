@@ -38,7 +38,7 @@ void vendor_load_properties() {
 
     switch (prjname) {
         // udon
-        case 22881: // IN
+        case 22881:  // IN
             OverrideProperty("ro.product.product.model", "CPH2487");
             break;
         default:
