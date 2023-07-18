@@ -45,8 +45,8 @@ SOONG_CONFIG_android_hardware_audio_run_64bit := true
 PRODUCT_PACKAGES += \
     android.hardware.audio@7.0-impl \
     android.hardware.audio.effect@7.0-impl \
-    android.hardware.audio.service \
-    android.hardware.bluetooth.audio-impl \
+    android.hardware.audio.service_64 \
+    android.hardware.bluetooth.audio@2.1-impl \
     android.hardware.soundtrigger@2.3-impl \
     audio.bluetooth.default \
     audio.primary.taro \
@@ -137,16 +137,14 @@ PRODUCT_PACKAGES += \
     libsdmutils \
     vendor.display.config@1.11.vendor \
     vendor.display.config@2.0 \
-    libtinyxml \
     vendor.display.config@2.0.vendor \
+    vendor.qti.hardware.display.config \
+    vendor.qti.hardware.display.config-V2-ndk.vendor \
     vendor.qti.hardware.display.allocator-service \
     vendor.qti.hardware.display.composer-service \
-    vendor.qti.hardware.display.config \
     vendor.qti.hardware.display.demura-service \
     vendor.qti.hardware.display.mapper@2.0.vendor \
     vendor.qti.hardware.display.mapper@3.0.vendor \
-    vendor.qti.hardware.display.config.vendor \
-    vendor.qti.hardware.display.demura-service \
     vendor.qti.hardware.display.mapper@4.0.vendor
 
 PRODUCT_PACKAGES += \
@@ -179,7 +177,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.3-service.oplus
 
-PRODUCT_COPY_FILES += \
+    PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml
 
 # Gatekeeper
@@ -196,6 +194,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     android.hardware.gnss-V1-ndk_platform.vendor \
+    vendor.qti.hardware.display.config-V2-ndk.vendor \
     android.hardware.keymaster-V3-ndk_platform.vendor
 
 # Graphics
