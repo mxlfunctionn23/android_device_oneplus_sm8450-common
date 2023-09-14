@@ -73,6 +73,10 @@ SOONG_CONFIG_qtidisplay += \
     gralloc_handle_has_reserved_size
 SOONG_CONFIG_qtidisplay_gralloc_handle_has_reserved_size := true
 
+# DTBO
+BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
+TARGET_NEEDS_DTBOIMAGE := true
+
 # Properties
 TARGET_ODM_PROP += $(COMMON_PATH)/odm.prop
 TARGET_PRODUCT_PROP += $(COMMON_PATH)/product.prop
