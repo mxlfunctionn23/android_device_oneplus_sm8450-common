@@ -10,21 +10,41 @@
 #include <sys/_system_properties.h>
 
 using android::base::GetProperty;
+#include "init_oplus.h"
 
 /*
  * SetProperty does not allow updating read only properties and as a result
  * does not work for our use case. Write "OverrideProperty" to do practically
  * the same thing as "SetProperty" without this restriction.
  */
-void OverrideProperty(const char* name, const char* value) {
-    size_t valuelen = strlen(value);
+void OverrideProperty(char const prop[], char const value[]) {
+    prop_info* pi = (prop_info*)__system_property_find(prop);
+    if (pi != nullptr)
+        __system_property_update(pi, value, strlen(value));
+    else
+        __system_property_add(prop, strlen(prop), value, strlen(value));
+}
 
-    prop_info* pi = (prop_info*)__system_property_find(name);
-    if (pi != nullptr) {
-        __system_property_update(pi, value, valuelen);
-    } else {
-        __system_property_add(name, strlen(name), value, valuelen);
+void load_props(int i, int j) {
+    const auto OverrideRoProperty = [](const char* source, const char* prop, const char* value,
+                                       bool product) {
+        std::string PropertyName = "ro.";
+
+        if (product) PropertyName += "product.";
+        if (source != nullptr) PropertyName += source;
+        if (!product) PropertyName += "build.";
+        PropertyName += prop;
+
+        OverrideProperty(PropertyName.c_str(), value);
+    };
+
+    for (const auto& source : RO_PROP_SOURCES) {
+        OverrideRoProperty(source, "device", DEVICES[j], true);
+        OverrideRoProperty(source, "model", MODELS[i], true);
+        OverrideRoProperty(source, "name", MODELS[i], true);
+        OverrideRoProperty(source, "fingerprint", BUILD_FINGERPRINT[i], false);
     }
+    OverrideRoProperty(nullptr, "product", MODELS[i], false);
 }
 
 /*
@@ -33,7 +53,6 @@ void OverrideProperty(const char* name, const char* value) {
  * after the original property has been set.
  */
 void vendor_load_properties() {
-    auto device = GetProperty("ro.product.product.device", "");
     auto prjname = std::stoi(GetProperty("ro.boot.prjname", "0"));
 
     switch (prjname) {
